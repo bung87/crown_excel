@@ -1,0 +1,14 @@
+{
+    "fileAssociations": [
+        {
+            "ext": "xlsx",
+            "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "role": "Viewer"
+        },
+        {
+            "ext": "xls",
+            "mimeType": "application/vnd.ms-excel",
+            "role": "Viewer"
+        }
+    ]
+}

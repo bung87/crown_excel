@@ -17,5 +17,4 @@
 nimbledeps
 src/htmldocs
 build/
-app.json
 .crowngui_cache/
