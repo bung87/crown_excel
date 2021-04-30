@@ -54,9 +54,9 @@ jobs:
         create-dmg 'build/macos/Debug/crown_excel.app' Build/Releases
         ls Build/Releases
     - name: Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: Build/Releases/crown_excel.dmg
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: Build/Releases/crown_excel.dmg
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
