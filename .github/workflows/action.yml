@@ -41,7 +41,7 @@ jobs:
     - name: Install Packages
       run: nimble install -d -y
     - name: install crown cli
-      run: nimble install https://github.com/bung87/crowncli
+      run: nimble install https://github.com/bung87/crowncli -y
     - name: build
       run: nimble macos
     - uses: actions/upload-artifact@v2
