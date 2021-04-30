@@ -35,6 +35,8 @@ proc onOpenFIle(webview:Webview; filePath:string):bool =
       content.add "</tr>"
     content.add "</table>"
   let html = fmt"""<!DOCTYPE html><html><head><meta charset="utf-8"><meta content='width=device-width,initial-scale=1' name=viewport></head><body>{content}</body></html>"""
+  let filename = extractFilename filePath
+  webview.setTitle(filename.cstring)
   webview.loadHTML(html)
   return true
 
