@@ -48,3 +48,15 @@ jobs:
       with:
         name: debug version app
         path: build/macos/Debug/crown_excel.app
+    - name: create dmg
+      run: >
+        npm install --global create-dmg
+        create-dmg 'build/macos/Debug/crown_excel.app' Build/Releases
+        ls Build/Releases
+    - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: Build/Releases/crown_excel.dmg
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
