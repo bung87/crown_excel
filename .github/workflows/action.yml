@@ -11,15 +11,10 @@ on:
 jobs:
   test:
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.experimental }}
     strategy:
-      fail-fast: false
       matrix:
         os:
           - macOS-latest
-        experimental: [false]
-        nim-version:
-          - stable
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -36,12 +31,11 @@ jobs:
       with:
         path: ~/.nimble
         key: ${{ runner.os }}-nimble-${{ matrix.nim-version}}-${{ hashFiles('*.nimble') }}
-        # restore-keys: |
-        #   ${{ runner.os }}-nimble-${{ matrix.nim-version}}-
+
     - name: Setup nim
       uses: jiro4989/setup-nim-action@v1.3.2
-      with:
-        nim-version: ${{ matrix.nim-version }}
+      # with:
+      #   nim-version: ${{ matrix.nim-version }}
 
     - name: Install Packages
       run: nimble install -d -y
