@@ -9,7 +9,7 @@ on:
       - README.md
 
 jobs:
-  test:
+  build:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
