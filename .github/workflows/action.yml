@@ -51,6 +51,7 @@ jobs:
     - name: create dmg
       run: |
         npm install --global create-dmg
+        mkdir Build/Releases/
         create-dmg 'build/macos/Debug/crown_excel.app' Build/Releases
         ls Build/Releases
     - name: Release
