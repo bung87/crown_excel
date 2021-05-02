@@ -19,8 +19,7 @@ proc escapeHtml*(val: string; escapeQuotes = false): string =
     else:
       result &= c
 
-proc onOpenFIle(webview:Webview; filePath:string):bool = 
-  jsDebug(fmt"open with file {filePath}")
+proc onOpenFile(webview: Webview; filePath: string): bool = 
   let table = parseExcel(filePath)
   var content: string = ""
   for k, v in table.data.pairs:
