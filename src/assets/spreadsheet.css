@@ -1,3 +1,6 @@
+html,body{
+	height:100%;
+}
 .SpreadsheetJs {
 	border:1px SOLID #DDD;
 	border-spacing:0;
