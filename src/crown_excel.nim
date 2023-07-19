@@ -2,7 +2,7 @@ import std/[os,strformat,strutils, tables, math, oids, base64]
 import crowngui
 import xlsx
 
-const cssSpreadSheet = staticRead(currentSourcePath.parentDir / "assets" / "spreadsheet.css").strip.unindent
+const cssSpreadSheet = staticRead(currentSourcePath.parentDir / "assets" / "spreadsheet.css").strip
 
 proc escapeHtml*(val: string; escapeQuotes = false): string =
   ## translates the characters `&`, `<` and `>` to their corresponding
@@ -41,8 +41,6 @@ proc onOpenFile(webview: Webview; filePath: string, filename = ""): bool =
   let filename = if filename.len > 0 :filename else :extractFilename filePath
   webview.setTitle(filename)
   webview.setHtml(html)
-  
-  webview.css cssSpreadSheet
   return true
 
 type DropData = object
@@ -58,11 +56,12 @@ proc onDrop(webview: Webview; data: DropData) =
 
 when isMainModule:
   let app = newApplication("<!DOCTYPE html><html><head><meta content='width=device-width,initial-scale=1' name=viewport></head><body id=body ><div id=ROOT ><div></body></html>")
+  webview.css cssSpreadSheet
   app.setOnOpenFile(onOpenFile)
-  
+
   app.bindProcs("api"):
     proc onDrop(data:DropData) =  onDrop(app.webview, data)
-  app.eval """
+  app.webview.addUserScriptAtDocumentEnd """
     document.body.addEventListener('dragover', (event) => {
     event.stopPropagation();
     event.preventDefault();
