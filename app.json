@@ -3,11 +3,13 @@
         {
             "ext": "xlsx",
             "mimeType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "uti": "org.openxmlformats.spreadsheetml.sheet",
             "role": "Viewer"
         },
         {
             "ext": "xls",
             "mimeType": "application/vnd.ms-excel",
+            "uti": "com.microsoft.excel.xls",
             "role": "Viewer"
         }
     ]
