@@ -13,7 +13,7 @@ bin           = @["crown_excel"]
 
 requires "nim >= 1.4.4"
 requires "xlsx"
-requires "crowngui >= 0.2.9"
+requires "crowngui >= 0.2.10"
 
 task macos,"build macos":
   exec "crowncli build --target macos"
