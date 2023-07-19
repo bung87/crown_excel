@@ -2,6 +2,8 @@ import std/[os,strformat,strutils, tables, math, oids, base64]
 import crowngui
 import xlsx
 
+const cssSpreadSheet = staticRead(currentSourcePath.parentDir / "assets" / "spreadsheet.css").strip.unindent
+
 proc escapeHtml*(val: string; escapeQuotes = false): string =
   ## translates the characters `&`, `<` and `>` to their corresponding
   ## HTML entities. if `escapeQuotes` is `true`, also translates
@@ -21,6 +23,7 @@ proc escapeHtml*(val: string; escapeQuotes = false): string =
       result &= c
 
 proc onOpenFile(webview: Webview; filePath: string, filename = ""): bool = 
+  webview.eval("console.log(\"" & "onOpen:" & filePath & "\")")
   let table = parseExcel(filePath)
   var content: string = ""
   for k, v in table.data.pairs:
@@ -38,6 +41,8 @@ proc onOpenFile(webview: Webview; filePath: string, filename = ""): bool =
   let filename = if filename.len > 0 :filename else :extractFilename filePath
   webview.setTitle(filename)
   webview.setHtml(html)
+  
+  webview.css cssSpreadSheet
   return true
 
 type DropData = object
@@ -47,19 +52,17 @@ type DropData = object
 proc onDrop(webview: Webview; data: DropData) =
   let tmpDir = getTempDir()
   let path = tmpDir / $genOid()
-  # jsDebug(("onDrop:" & data.name).cstring)
-  echo path
+  webview.eval("console.log(\"" & "onDrop:" & data.name & "\")")
   writeFile(path, decode(data.dataurl.split(',', 1)[1]))
   discard onOpenFile(webview, path, data.name)
 
 when isMainModule:
   let app = newApplication("<!DOCTYPE html><html><head><meta content='width=device-width,initial-scale=1' name=viewport></head><body id=body ><div id=ROOT ><div></body></html>")
-  const cssSpreadSheet = staticRead(currentSourcePath.parentDir / "assets" / "spreadsheet.css").strip.unindent
-  app.css cssSpreadSheet
+  app.setOnOpenFile(onOpenFile)
+  
   app.bindProcs("api"):
     proc onDrop(data:DropData) =  onDrop(app.webview, data)
   app.eval """
-    window.onload = function(){
     document.body.addEventListener('dragover', (event) => {
     event.stopPropagation();
     event.preventDefault();
@@ -76,7 +79,7 @@ when isMainModule:
       }
       
     });
-    }
+    
   function readExcel(file) {
     if (file.type && !file.type.startsWith('application/vnd')) {
       console.log('File is not an Excel.', file.type, file);
@@ -93,4 +96,4 @@ when isMainModule:
 }
   """
   app.run()
-  app.destroy()
+  # app.destroy()
