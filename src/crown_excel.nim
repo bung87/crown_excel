@@ -56,7 +56,7 @@ proc onDrop(webview: Webview; data: DropData) =
 
 when isMainModule:
   let app = newApplication("<!DOCTYPE html><html><head><meta content='width=device-width,initial-scale=1' name=viewport></head><body id=body ><div id=ROOT ><div></body></html>")
-  webview.css cssSpreadSheet
+  app.css cssSpreadSheet
   app.setOnOpenFile(onOpenFile)
 
   app.bindProcs("api"):
